@@ -24,7 +24,7 @@ public class Train extends Thread {
     private int y;
     private final int initY;
     private JLabel train;
-    private boolean id;
+    private final boolean id;
     private Semaphore s;
 
     public Train(JLabel t, boolean id, Semaphore s) {
@@ -40,24 +40,24 @@ public class Train extends Thread {
     @Override
     public void run() {
         while (true) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
-            }
 
             //1st train
             if (id) {
 
                 //Train goes right
-                if (this.x <= initX + 525 && this.y == initY) {
-                    this.x++;
-                    train.setLocation(this.x, this.y);
+                while (this.x < initX + 525 && this.y == initY) {
+                    try {
+                        Thread.sleep(2);
+                        this.x++;
+                        train.setLocation(this.x, this.y);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
 
                 //Train 1 goes up
                 traverseTunnel(id);
-
 
                 /*
                     //Train goes up
@@ -67,44 +67,71 @@ public class Train extends Thread {
                     }*/
                 
                 //Train goes left
-                if (this.x >= initX - 25 && this.y == initY - 410) {
-                    this.x--;
-                    train.setLocation(this.x, this.y);
+                while (this.x > initX - 25 && this.y == initY - 410) {
+                    try {
+                        Thread.sleep(2);
+                        this.x--;
+                        train.setLocation(this.x, this.y);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
 
                 //Train goes down and completes a loop
-                if (this.x == initX - 25 && this.y <= initY) {
-                    this.y++;
-                    train.setLocation(this.x, this.y);
+                while (this.x == initX - 25 && this.y < initY) {
+                    try {
+                        Thread.sleep(2);
+                        this.y++;
+                        train.setLocation(this.x, this.y);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
 
             } else {//2nd train
 
                 //Train goes left
-                if (this.x >= initX - 525 && this.y == initY) {
+                while (this.x > initX - 525 && this.y == initY) {
+                    try {
+                        Thread.sleep(2);
                     this.x--;
-                    train.setLocation(this.x, this.y);
+                    train.setLocation(this.x, this.y);    
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 traverseTunnel(id);
-                
+
                 /*
                 //Train goes up
                 if (this.x == initX - 525 && this.y >= initY - 410) {
                     this.y--;
                     train.setLocation(this.x, this.y);
                 }*/
-
+                
                 //Train goes right
-                if (this.x <= initX + 25 && this.y == initY - 410) {
+                while (this.x < initX + 25 && this.y == initY - 410) {
+                    try {
+                        Thread.sleep(2);
                     this.x++;
-                    train.setLocation(this.x, this.y);
+                    train.setLocation(this.x, this.y);    
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }  
                 }
 
                 //Train goes down and completes a loop
-                if (this.x == initX + 25 && this.y <= initY) {
+                while (this.x == initX + 25 && this.y < initY) {
+                    try {
+                        Thread.sleep(2);
                     this.y++;
-                    train.setLocation(this.x, this.y);
+                    train.setLocation(this.x, this.y);   
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
 
@@ -115,17 +142,29 @@ public class Train extends Thread {
     private synchronized void traverseTunnel(boolean id) {
         try {
             s.acquire();
+            
             if (id) {
                 //Train 1 goes up
-                if (this.x == initX + 525 && this.y >= initY - 410) {
-                    this.y--;
-                    train.setLocation(this.x, this.y);
+                while (this.x == initX + 525 && this.y > initY - 410) {
+                    try {
+                        Thread.sleep(4);
+                        this.y--;
+                        train.setLocation(this.x, this.y);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            } else//Train 2 goes up
-            {
-                if (this.x == initX - 525 && this.y >= initY - 410) {
-                    this.y--;
-                    train.setLocation(this.x, this.y);
+            } else {
+                //Train 2 goes up
+                while (this.x == initX - 525 && this.y > initY - 410) {
+                    try {
+                        Thread.sleep(4);
+                        this.y--;
+                        train.setLocation(this.x, this.y);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Train.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                 }
             }
         } catch (InterruptedException ex) {

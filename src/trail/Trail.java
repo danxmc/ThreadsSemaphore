@@ -55,7 +55,7 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1300, 600));
         jPanel1.setLayout(null);
 
-        train2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/Train1.png"))); // NOI18N
+        train2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/Train2.png"))); // NOI18N
         train2.setAlignmentY(0.0F);
         jPanel1.add(train2);
         train2.setBounds(1150, 410, 100, 100);
@@ -65,13 +65,13 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.add(train1);
         train1.setBounds(50, 410, 100, 100);
 
-        track1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/tt.png"))); // NOI18N
+        track1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrack.png"))); // NOI18N
         track1.setAlignmentY(0.0F);
         track1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel1.add(track1);
         track1.setBounds(50, 50, 600, 460);
 
-        track2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/tt.png"))); // NOI18N
+        track2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrack.png"))); // NOI18N
         track2.setAlignmentY(0.0F);
         track2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         jPanel1.add(track2);

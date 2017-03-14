@@ -66,7 +66,7 @@
         <Component class="javax.swing.JLabel" name="train2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/trail/Train1.png"/>
+              <Image iconType="3" name="/trail/Train2.png"/>
             </Property>
             <Property name="alignmentY" type="float" value="0.0"/>
           </Properties>
@@ -98,7 +98,7 @@
         <Component class="javax.swing.JLabel" name="track1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/trail/tt.png"/>
+              <Image iconType="3" name="/trail/TrainTrack.png"/>
             </Property>
             <Property name="alignmentY" type="float" value="0.0"/>
             <Property name="horizontalTextPosition" type="int" value="2"/>
@@ -112,7 +112,7 @@
         <Component class="javax.swing.JLabel" name="track2">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/trail/tt.png"/>
+              <Image iconType="3" name="/trail/TrainTrack.png"/>
             </Property>
             <Property name="alignmentY" type="float" value="0.0"/>
             <Property name="horizontalTextPosition" type="int" value="4"/>
