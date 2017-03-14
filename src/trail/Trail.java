@@ -18,13 +18,6 @@ public class Trail extends javax.swing.JFrame {
      */
     public Trail() {
         initComponents();
-        
-        Semaphore mutex = new Semaphore(1);
-        Train t1 = new Train(train1, true, mutex);
-        Train t2 = new Train(train2, false, mutex);
-        
-        t1.start();
-        t2.start();
     }
 
     /**
@@ -41,6 +34,7 @@ public class Trail extends javax.swing.JFrame {
         train1 = new javax.swing.JLabel();
         track1 = new javax.swing.JLabel();
         track2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -77,6 +71,16 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.add(track2);
         track2.setBounds(650, 50, 600, 460);
 
+        jButton1.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
+        jButton1.setText("Go!");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(220, 530, 100, 60);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,6 +94,21 @@ public class Trail extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Semaphore mutex = new Semaphore(1);
+        Train t1 = new Train(train1, true, mutex);
+        Train t2 = new Train(train2, false, mutex);
+        
+        t1.reset();
+        t2.reset();
+        
+        //t1.a = true;
+        //t2.a = true;
+        
+        t1.start();
+        t2.start();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,6 +146,7 @@ public class Trail extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel track1;
     private javax.swing.JLabel track2;

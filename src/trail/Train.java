@@ -26,6 +26,7 @@ public class Train extends Thread {
     private JLabel train;
     private final boolean id;
     private Semaphore s;
+    //protected boolean a;
 
     public Train(JLabel t, boolean id, Semaphore s) {
         this.train = t;
@@ -35,8 +36,9 @@ public class Train extends Thread {
         this.initY = t.getY();
         this.id = id;
         this.s = s;
+        //this.a = true;
     }
-
+    
     @Override
     public void run() {
         while (true) {
@@ -173,6 +175,13 @@ public class Train extends Thread {
             s.release();
         }
 
+    }
+
+    public void reset() {
+        //Set to false so the run method can stop
+        //this.a = false;
+        //Set the train label to the initial location
+        train.setLocation(this.initX, this.initY);
     }
 
 }
