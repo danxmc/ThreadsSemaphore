@@ -6,6 +6,7 @@
 package trail;
 
 import java.util.concurrent.Semaphore;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -32,9 +33,14 @@ public class Trail extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         train2 = new javax.swing.JLabel();
         train1 = new javax.swing.JLabel();
+        train3 = new javax.swing.JLabel();
         track1 = new javax.swing.JLabel();
         track2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonReset = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        msg = new javax.swing.JTextArea();
+        track3 = new javax.swing.JLabel();
+        buttonStart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
@@ -59,6 +65,10 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.add(train1);
         train1.setBounds(50, 410, 100, 100);
 
+        train3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/train3.png"))); // NOI18N
+        jPanel1.add(train3);
+        train3.setBounds(600, 500, 100, 100);
+
         track1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrack.png"))); // NOI18N
         track1.setAlignmentY(0.0F);
         track1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -71,15 +81,37 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.add(track2);
         track2.setBounds(650, 50, 600, 460);
 
-        jButton1.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
-        jButton1.setText("Go!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonReset.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
+        buttonReset.setText("Reset");
+        buttonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonResetActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(220, 530, 100, 60);
+        jPanel1.add(buttonReset);
+        buttonReset.setBounds(350, 530, 135, 60);
+
+        msg.setColumns(20);
+        msg.setFont(new java.awt.Font("Lucida Sans", 0, 16)); // NOI18N
+        msg.setRows(5);
+        jScrollPane1.setViewportView(msg);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(720, 510, 580, 106);
+
+        track3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrackStraigth.png"))); // NOI18N
+        jPanel1.add(track3);
+        track3.setBounds(600, 0, 100, 600);
+
+        buttonStart.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
+        buttonStart.setText("Go!");
+        buttonStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonStartActionPerformed(evt);
+            }
+        });
+        jPanel1.add(buttonStart);
+        buttonStart.setBounds(200, 530, 100, 60);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,20 +127,27 @@ public class Trail extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Semaphore mutex = new Semaphore(1);
-        Train t1 = new Train(train1, true, mutex);
-        Train t2 = new Train(train2, false, mutex);
-        
+    private void buttonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetActionPerformed
         t1.reset();
         t2.reset();
-        
-        //t1.a = true;
-        //t2.a = true;
+        t3.reset();
+    }//GEN-LAST:event_buttonResetActionPerformed
+
+    private void buttonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartActionPerformed
+
+        Semaphore mutex = new Semaphore(1);
+        Train t1 = new Train(train1, (byte) 1, mutex, msg);
+        Train t2 = new Train(train2, (byte) 2, mutex, msg);
+        Train t3 = new Train(train3, (byte) 3, mutex, msg);
         
         t1.start();
         t2.start();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        t3.start();
+
+        //Always update the JScrollPane of the JtextArea
+        DefaultCaret caret = (DefaultCaret) msg.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+    }//GEN-LAST:event_buttonStartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -124,16 +163,24 @@ public class Trail extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Trail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Trail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Trail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Trail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Trail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Trail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Trail.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Trail.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -146,11 +193,16 @@ public class Trail extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonReset;
+    private javax.swing.JButton buttonStart;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private static javax.swing.JTextArea msg;
     private javax.swing.JLabel track1;
     private javax.swing.JLabel track2;
+    private javax.swing.JLabel track3;
     private static javax.swing.JLabel train1;
     private static javax.swing.JLabel train2;
+    private static javax.swing.JLabel train3;
     // End of variables declaration//GEN-END:variables
 }
