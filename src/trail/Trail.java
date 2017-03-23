@@ -5,6 +5,7 @@
  */
 package trail;
 
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import javax.swing.text.DefaultCaret;
 
@@ -36,10 +37,9 @@ public class Trail extends javax.swing.JFrame {
         train3 = new javax.swing.JLabel();
         track1 = new javax.swing.JLabel();
         track2 = new javax.swing.JLabel();
-        buttonReset = new javax.swing.JButton();
+        track3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         msg = new javax.swing.JTextArea();
-        track3 = new javax.swing.JLabel();
         buttonStart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,15 +81,9 @@ public class Trail extends javax.swing.JFrame {
         jPanel1.add(track2);
         track2.setBounds(650, 50, 600, 460);
 
-        buttonReset.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
-        buttonReset.setText("Reset");
-        buttonReset.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonResetActionPerformed(evt);
-            }
-        });
-        jPanel1.add(buttonReset);
-        buttonReset.setBounds(350, 530, 135, 60);
+        track3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrackStraigth.png"))); // NOI18N
+        jPanel1.add(track3);
+        track3.setBounds(600, 0, 100, 600);
 
         msg.setColumns(20);
         msg.setFont(new java.awt.Font("Lucida Sans", 0, 16)); // NOI18N
@@ -98,10 +92,6 @@ public class Trail extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(720, 510, 580, 106);
-
-        track3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trail/TrainTrackStraigth.png"))); // NOI18N
-        jPanel1.add(track3);
-        track3.setBounds(600, 0, 100, 600);
 
         buttonStart.setFont(new java.awt.Font("Lucida Sans", 1, 36)); // NOI18N
         buttonStart.setText("Go!");
@@ -127,19 +117,19 @@ public class Trail extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonResetActionPerformed
-        t1.reset();
-        t2.reset();
-        t3.reset();
-    }//GEN-LAST:event_buttonResetActionPerformed
+    Runnable resetTrains = new Runnable() {
+        public void run() {
+            System.out.println("Starting again");
+        }
+    };
 
     private void buttonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartActionPerformed
-
         Semaphore mutex = new Semaphore(1);
-        Train t1 = new Train(train1, (byte) 1, mutex, msg);
-        Train t2 = new Train(train2, (byte) 2, mutex, msg);
-        Train t3 = new Train(train3, (byte) 3, mutex, msg);
-        
+        CyclicBarrier barrier = new CyclicBarrier(3, resetTrains);
+        Train t1 = new Train(train1, (byte) 1, mutex, msg, buttonStart, barrier);
+        Train t2 = new Train(train2, (byte) 2, mutex, msg, buttonStart, barrier);
+        Train t3 = new Train(train3, (byte) 3, mutex, msg, buttonStart, barrier);
+
         t1.start();
         t2.start();
         t3.start();
@@ -193,8 +183,7 @@ public class Trail extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonReset;
-    private javax.swing.JButton buttonStart;
+    private static javax.swing.JButton buttonStart;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTextArea msg;
